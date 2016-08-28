@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Mem Info</string>
     <string name="btn1_txt">Read MemInfo</string>
+    <string name="na">N/A</string>
+    <string name="avaliable">Avaliable: </string>
+    <string name="total">Total: </string>
+    <string name="cached">Cached: </string>
+    <string name="buffer">Buffers: </string>
+    <string name="free">Free: </string>
+    <string name="used">Used: </string>
 </resources>

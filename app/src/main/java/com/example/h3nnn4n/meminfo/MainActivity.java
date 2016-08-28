@@ -4,8 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -18,12 +16,24 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
-    private ArrayList<String> memInfo_array = new ArrayList<String>();
+    private ArrayList<String> memInfo_array = new ArrayList<>();
+    private int avaliable;
+    private int cached;
+    private int buffers;
+    private int free;
+    private int total;
+    private int used;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        avaliable = -1;
+        cached = -1;
+        buffers = -1;
+        free = -1;
+        total = -1;
+        used = -1;
     }
 
     public void readMemInfo(View v) {
@@ -39,36 +49,54 @@ public class MainActivity extends AppCompatActivity {
             try {
                 assert br != null;
                 while ((line = br.readLine()) != null) {
-                    Log.d(TAG, line);
+//                    Log.d(TAG, line);
                     memInfo_array.add(line);
                 }
             } catch (IOException eee) {
-                Log.d(TAG, "Error while reading " + fpath, eee);
+                Log.e(TAG, "Error while reading " + fpath, eee);
             }
         } catch (Exception masterTreta) {
-            Log.d(TAG, "Error while opening file.", masterTreta);
+            Log.e(TAG, "Error while opening file.", masterTreta);
         }
 
         for (int i = 0; i < memInfo_array.size(); i++) {
             if (Pattern.matches("MemTotal:.*", memInfo_array.get(i))) {
                 final TextView MemTotal = (TextView) findViewById(R.id.MemTotal);
-                MemTotal.setText(memInfo_array.get(i));
+                total = filterText(memInfo_array.get(i));
+                MemTotal.setText(Integer.toString(total));
             }
 
             if (Pattern.matches("MemFree:.*", memInfo_array.get(i))) {
                 final TextView MemTotal = (TextView) findViewById(R.id.MemFree);
-                MemTotal.setText(memInfo_array.get(i));
+                free = filterText(memInfo_array.get(i));
+                MemTotal.setText(Integer.toString(free));
             }
 
             if (Pattern.matches("Buffers:.*", memInfo_array.get(i))) {
                 final TextView MemTotal = (TextView) findViewById(R.id.Buffers);
-                MemTotal.setText(memInfo_array.get(i));
+                buffers = filterText(memInfo_array.get(i));
+                MemTotal.setText(Integer.toString(buffers));
             }
 
             if (Pattern.matches("Cached:.*", memInfo_array.get(i))) {
                 final TextView MemTotal = (TextView) findViewById(R.id.Cached);
-                MemTotal.setText(memInfo_array.get(i));
+                cached = filterText(memInfo_array.get(i));
+                MemTotal.setText(Integer.toString(cached));
             }
         }
+
+        final TextView avaliableTV = (TextView) findViewById(R.id.Avaliable);
+        avaliable = free + cached + buffers;
+        avaliableTV.setText(Integer.toString(avaliable));
+
+        final TextView usedTV = (TextView) findViewById(R.id.Used);
+        used = total - (free + cached + buffers);
+        usedTV.setText(Integer.toString(used));
+    }
+
+    public int filterText(String str) {
+        String str2 = str.replaceAll("\\s+", " ");
+        String str3[] = str2.split(" ");
+        return Integer.parseInt(str3[1]);
     }
 }
