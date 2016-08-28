@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Mem Info</string>
+    <string name="btn1_txt">Read MemInfo</string>
+</resources>
