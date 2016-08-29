@@ -23,10 +23,15 @@ public class MainActivity extends AppCompatActivity {
     private int total;
     private int used;
 
+    private graphView drawer;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        drawer = (graphView) findViewById(R.id.graph_view);
 
         available   = -1;
         cached      = -1;
@@ -64,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 final TextView MemTotal = (TextView) findViewById(R.id.MemTotal);
                 total = filterText(memInfo_array.get(i));
                 MemTotal.setText(Integer.toString(total));
+                drawer.setTotal(total);
             }
 
             if (Pattern.matches("MemFree:.*", memInfo_array.get(i))) {
@@ -92,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView usedTV = (TextView) findViewById(R.id.Used);
         used = total - (free + cached + buffers);
         usedTV.setText(Integer.toString(used));
+        drawer.addUsed(used);
     }
 
     public int filterText(String str) {
