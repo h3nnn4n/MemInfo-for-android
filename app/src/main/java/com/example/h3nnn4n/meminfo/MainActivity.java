@@ -1,9 +1,11 @@
 package com.example.h3nnn4n.meminfo;
 
+import android.opengl.GLSurfaceView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -17,6 +19,7 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private ArrayList<String> memInfo_array = new ArrayList<>();
+    private GLSurfaceView mGLView;
     private int avaliable;
     private int cached;
     private int buffers;
@@ -28,12 +31,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        avaliable = -1;
-        cached = -1;
-        buffers = -1;
-        free = -1;
-        total = -1;
-        used = -1;
+
+        avaliable   = -1;
+        cached      = -1;
+        buffers     = -1;
+        free        = -1;
+        total       = -1;
+        used        = -1;
     }
 
     public void readMemInfo(View v) {

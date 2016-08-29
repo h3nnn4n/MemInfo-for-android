@@ -143,6 +143,18 @@
                     android:layout_column="3" />
             </TableRow>
 
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView android:id="@+id/imageView"
+                    android:layout_column="2" />
+            </TableRow>
+
         </TableLayout>
     </LinearLayout>
 </RelativeLayout>
